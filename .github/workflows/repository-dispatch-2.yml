@@ -60,13 +60,13 @@ jobs:
           echo $BRANCH
 
 
-          # git checkout -b ${BRANCH_NAME}
+          git checkout -b ${BRANCH_NAME}
 
-          # git add devenv
-          # git commit -m "Bump upx-frontend to ${VERSION}
-          # git push --set-upstream origin ${BRANCH_NAME}
+          git add devenv
+          git commit -m "Bump upx-frontend to ${VERSION}
+          git push --set-upstream origin ${BRANCH_NAME}
 
-          # gh pr create \
-          # --title "Bump upx-frontend to ${VERSION}" \
-          # --body "This is an automated pull request created from a build pipeline owned by the upx team." \
-          # --head "$(git branch --show-current)"
+          gh pr create \
+          --title "Bump upx-frontend to ${VERSION}" \
+          --body "This is an automated pull request created from a build pipeline owned by the upx team." \
+          --head "$(git branch --show-current)"
