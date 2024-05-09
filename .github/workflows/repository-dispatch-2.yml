@@ -58,12 +58,8 @@ jobs:
           git config --global user.name 'Your Name'
           git config --global user.email 'your-username@users.noreply.github.com'
 
-          git config --list
-
           gh auth setup-git
           git checkout -b ${BRANCH_NAME}
-
-          git config --list
 
           git add devenv
           git commit -m "Bump upx-frontend to ${VERSION}"
