@@ -59,7 +59,7 @@ jobs:
           git checkout -b ${BRANCH_NAME}
 
           git add devenv
-          git commit -m "Bump upx-frontend to ${VERSION}
+          git commit -m "Bump upx-frontend to ${VERSION}"
           git push --set-upstream origin ${BRANCH_NAME}
 
           gh pr create \
