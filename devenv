@@ -1,0 +1,6 @@
+# -*- mode: shell-script; -*-
+
+export UPX_FRONTEND_SOURCE_PROJECT_NAME="nx-trunk"
+export UPX_FRONTEND_SOURCE_BUCKET_NAME="gs://upx-frontend-builds"
+export UPX_FRONTEND_USE_MOCK_API=0
+export UPX_FRONTEND_VERSION=2024-05-09T15:01:59

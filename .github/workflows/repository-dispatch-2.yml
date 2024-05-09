@@ -23,6 +23,7 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NEW_VERSION: ${{ github.event.client_payload.build_name }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -33,10 +34,19 @@ jobs:
       - name: Print build name
         run: echo ${{ github.event.client_payload.build_name }}
 
+      - name: Set date as output
+        id: date
+        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
+
       - name: Print current GH user
         run: |
           gh auth status
 
       - name: Edit devenv and open PR
         run: |
+          echo "BEFORE REPLACEMENT"
+          cat devenv
+          sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}/" devenv
+          echo "AFTER REPLACEMENT"
+          cat devenv
           ls -l
