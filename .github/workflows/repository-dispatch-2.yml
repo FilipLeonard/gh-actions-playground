@@ -23,7 +23,7 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -36,3 +36,7 @@ jobs:
       - name: Print current GH user
         run: |
           gh auth status
+
+      - name: Edit devenv and open PR
+        run: |
+          ls -l
