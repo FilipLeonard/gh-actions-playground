@@ -39,10 +39,6 @@ jobs:
           gh auth status
           ls -la
 
-      - name: Sleep
-        run: |
-          sleep 60
-
       - name: Edit devenv and open PR
         run: |
           VERSION=${{ env.NEW_VERSION || github.run_number }}
@@ -73,3 +69,7 @@ jobs:
           --title "Bump upx-frontend to ${VERSION}" \
           --body "This is an automated pull request created from a build pipeline owned by the upx team." \
           --head "$(git branch --show-current)"
+
+      - name: Sleep
+        run: |
+          sleep 60
