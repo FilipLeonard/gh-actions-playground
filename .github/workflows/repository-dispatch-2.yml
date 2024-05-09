@@ -55,6 +55,9 @@ jobs:
           BRANCH=$(git branch --show-current)
           echo $BRANCH
 
+          git config --global user.name 'Your Name'
+          git config --global user.email 'your-username@users.noreply.github.com'
+
           git config --list
 
           gh auth setup-git
