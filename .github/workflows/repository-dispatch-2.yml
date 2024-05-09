@@ -44,10 +44,28 @@ jobs:
 
       - name: Edit devenv and open PR
         run: |
+          VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}"
+          BRANCH_NAME=automated-bump/upx-frontend-${VERSION}
+
           printf "\nBEFORE REPLACEMENT\n"
           cat devenv
-          sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}/" devenv
+          sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
           printf "\nAFTER REPLACEMENT\n"
           cat devenv
           printf "\nLIST FILES\n"
           ls -l
+          printf "\nLIST BRANCH\n"
+          BRANCH=$(git branch --show-current)
+          echo $BRANCH
+
+
+          # git checkout -b ${BRANCH_NAME}
+
+          # git add devenv
+          # git commit -m "Bump upx-frontend to ${VERSION}
+          # git push --set-upstream origin ${BRANCH_NAME}
+
+          # gh pr create \
+          # --title "Bump upx-frontend to ${VERSION}" \
+          # --body "This is an automated pull request created from a build pipeline owned by the upx team." \
+          # --head "$(git branch --show-current)"
