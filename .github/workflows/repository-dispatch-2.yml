@@ -49,4 +49,5 @@ jobs:
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}/" devenv
           printf "\nAFTER REPLACEMENT\n"
           cat devenv
+          printf "\nLIST FILES\n"
           ls -l
