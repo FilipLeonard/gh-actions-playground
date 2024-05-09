@@ -45,7 +45,7 @@ jobs:
 
       - name: Edit devenv and open PR
         run: |
-          VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}"
+          VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
           printf "\nBEFORE REPLACEMENT\n"
