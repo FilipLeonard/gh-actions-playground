@@ -41,6 +41,7 @@ jobs:
       - name: Print current GH user
         run: |
           gh auth status
+          ls -la
 
       - name: Edit devenv and open PR
         run: |
