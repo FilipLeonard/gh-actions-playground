@@ -34,10 +34,6 @@ jobs:
       - name: Print build name
         run: echo ${{ github.event.client_payload.build_name }}
 
-      - name: Set date as output
-        id: date
-        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
-
       - name: Print current GH user
         run: |
           gh auth status
@@ -45,7 +41,7 @@ jobs:
 
       - name: Edit devenv and open PR
         run: |
-          VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}
+          VERSION=${{ env.NEW_VERSION || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
           printf "\nBEFORE REPLACEMENT\n"
