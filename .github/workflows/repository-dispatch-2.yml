@@ -55,7 +55,7 @@ jobs:
           BRANCH=$(git branch --show-current)
           echo $BRANCH
 
-
+          gh auth setup-git
           git checkout -b ${BRANCH_NAME}
 
           git add devenv
