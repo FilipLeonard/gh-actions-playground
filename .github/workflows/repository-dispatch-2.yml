@@ -44,9 +44,9 @@ jobs:
 
       - name: Edit devenv and open PR
         run: |
-          echo "BEFORE REPLACEMENT"
+          printf "\nBEFORE REPLACEMENT\n"
           cat devenv
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${{ env.NEW_VERSION || steps.date.outputs.NOW }}/" devenv
-          echo "AFTER REPLACEMENT"
+          printf "\nAFTER REPLACEMENT\n"
           cat devenv
           ls -l
