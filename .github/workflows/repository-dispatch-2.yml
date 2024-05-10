@@ -40,8 +40,6 @@ jobs:
           ls -la
 
       - name: Edit devenv and open PR
-        env:
-          CONTEXT: ${{ toJson(github) }}
         run: |
           VERSION=${{ env.PAYLOAD.build_name || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
@@ -83,7 +81,7 @@ jobs:
 
           pr_body="$(make_body $title $url)"
 
-          echo "✅ ${pr_body}"
+          echo "✅ $title $url ${pr_body}"
 
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
