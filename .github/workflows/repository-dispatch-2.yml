@@ -72,8 +72,10 @@ jobs:
               "pull_request")
                 title=${{ github.event.client_payload.event.pull_request.title }}
                 url=${{ github.event.client_payload.event.pull_request.html_url }}
-                  ;;
+                echo "✅ pull_request $title $url"
+                ;;
                 "push")
+                echo "✅ push $title $url"
                 title=${{ github.event.client_payload.event.head_commit.message }}
                 url=${{ github.event.client_payload.event.head_commit.url }}
                 ;;
