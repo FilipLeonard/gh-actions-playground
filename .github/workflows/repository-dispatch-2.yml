@@ -80,7 +80,7 @@ jobs:
 
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
-          --body ${PR_BODY} \
+          --body "${PR_BODY}" \
           --head "$(git branch --show-current)"
 
       - name: Print contexts
