@@ -21,10 +21,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    env:
-      GH_TOKEN: ${{ secrets.UPX_TOKEN }}
-      PAYLOAD: ${{ toJson(github.event.client_payload) }}
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -39,7 +35,16 @@ jobs:
           gh auth status
           ls -la
 
+      - name: Generate a GH App installation token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.UPX_BOT_APP_ID }}
+          private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
+
       - name: Edit devenv and open PR
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           VERSION="${{ github.event.client_payload.build_name || github.event_name }}-${{github.run_number}}"
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
