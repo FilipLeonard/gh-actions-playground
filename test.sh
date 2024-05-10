@@ -16,7 +16,8 @@ EOF
 
 make_body_2() {
     local message="This is an automated pull request created from a build pipeline owned by the upx team."
-    echo "${message}\r\n$1\r\n$2"
+    # printf "${message}\r\n$1\r\n$2"
+    printf "%s\n\n%s\n%s" "${message}" "$1" "$2"
 }
 
 var="pull_request"
