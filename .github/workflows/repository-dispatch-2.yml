@@ -45,6 +45,7 @@ jobs:
         run: |
           VERSION=${{ env.PAYLOAD.build_name || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
+          echo ${{ env.PAYLOAD }}
 
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
