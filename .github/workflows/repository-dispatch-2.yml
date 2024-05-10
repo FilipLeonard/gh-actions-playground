@@ -39,39 +39,39 @@ jobs:
           gh auth status
           ls -la
 
-          - name: Print contexts
-          run: |
-            printf "GITHUB\n"
-            echo ${{ toJson(github) }}
-            printf "\n"
+      - name: Print contexts
+        run: |
+          printf "GITHUB\n"
+          echo ${{ toJson(github) }}
+          printf "\n"
 
-            printf "ENV\n"
-            echo ${{ toJson(env) }}
-            printf "\n"
+          printf "ENV\n"
+          echo ${{ toJson(env) }}
+          printf "\n"
 
-            printf "VARS\n"
-            echo ${{ toJson(vars) }}
-            printf "\n"
+          printf "VARS\n"
+          echo ${{ toJson(vars) }}
+          printf "\n"
 
-            printf "JOB\n"
-            echo ${{ toJson(job) }}
-            printf "\n"
+          printf "JOB\n"
+          echo ${{ toJson(job) }}
+          printf "\n"
 
-            printf "RUNNER\n"
-            echo ${{ toJson(runner) }}
-            printf "\n"
+          printf "RUNNER\n"
+          echo ${{ toJson(runner) }}
+          printf "\n"
 
-            printf "STEPS\n"
-            echo ${{ toJson(steps) }}
-            printf "\n"
+          printf "STEPS\n"
+          echo ${{ toJson(steps) }}
+          printf "\n"
 
-            printf "SECRETS\n"
-            echo ${{ toJson(secrets) }}
-            printf "\n"
+          printf "SECRETS\n"
+          echo ${{ toJson(secrets) }}
+          printf "\n"
 
-            printf "INPUTS\n"
-            echo ${{ toJson(inputs) }}
-            printf "\n"
+          printf "INPUTS\n"
+          echo ${{ toJson(inputs) }}
+          printf "\n"
 
       - name: Edit devenv and open PR
         run: |
