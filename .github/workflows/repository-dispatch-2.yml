@@ -77,3 +77,4 @@ jobs:
         run: |
           printf "GITHUB\n"
           echo "${{ toJson(github) }}"
+          printf "\n"
