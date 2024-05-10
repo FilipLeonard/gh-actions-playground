@@ -23,7 +23,7 @@ jobs:
 
     env:
       GH_TOKEN: ${{ secrets.UPX_TOKEN }}
-      PAYLOAD: ${{ github.event.client_payload }}
+      PAYLOAD: ${{ toJson(github.event.client_payload) }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
