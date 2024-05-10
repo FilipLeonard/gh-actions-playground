@@ -41,7 +41,7 @@ jobs:
 
       - name: Edit devenv and open PR
         run: |
-          VERSION=${{ env.PAYLOAD.build_name || github.run_number }}
+          VERSION=${{ github.event.client_payload.build_name || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
@@ -68,14 +68,14 @@ jobs:
               local message="This is an automated pull request created from a build pipeline owned by the upx team."
               echo "${message}\r\n$1\r\n$2"
           }
-          case "${{ env.PAYLOAD.original_event_name }}" in
+          case "${{ github.event.client_payload.original_event_name }}" in
               "pull_request")
-                title=${{ env.PAYLOAD.event.pull_request.title }}
-                url=${{ env.PAYLOAD.event.pull_request.html_url }}
+                title=${{ github.event.client_payload.event.pull_request.title }}
+                url=${{ github.event.client_payload.event.pull_request.html_url }}
                   ;;
                 "push")
-                title=${{ env.PAYLOAD.event.head_commit.message }}
-                url=${{ env.PAYLOAD.event.head_commit.url }}
+                title=${{ github.event.client_payload.event.head_commit.message }}
+                url=${{ github.event.client_payload.event.head_commit.url }}
                 ;;
           esac  
 
