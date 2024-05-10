@@ -23,11 +23,6 @@ jobs:
 
     env:
       GH_TOKEN: ${{ secrets.UPX_TOKEN }}
-      NEW_VERSION: ${{ github.event.client_payload.build_name }}
-      CONTEXT: ${{ toJson(github) }}
-      ORIGINAL_CONTEXT: ${{ toJson(github.event.client_payload.github_context) }}
-      ORIGINAL_COMMIT_MESSAGE: ${{ github.event.client_payload.github_context.event.head_commit.message || 'original message' }}
-      ORIGINAL_COMMIT_URL: ${{ github.event.client_payload.github_context.event.head_commit.url || 'original url' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -45,15 +40,12 @@ jobs:
 
       - name: Edit devenv and open PR
         env:
-          GH_CONTEXT: ${{ toJson(github.event.client_payload.github_context.event) }}
+          CONTEXT: ${{ toJson(github) }}
+          PAYLOAD: ${{ toJson(github.event.client_payload) }}
         run: |
-          VERSION=${{ env.NEW_VERSION || github.run_number }}
+          VERSION=${{ env.PAYLOAD.build_name || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
-          echo "✅"
-          echo ${{env.ORIGINAL_COMMIT_MESSAGE}}
-          echo ${{env.ORIGINAL_COMMIT_URL}}
-          echo ${GH_CONTEXT}
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
           printf "\nAFTER REPLACEMENT\n"
@@ -75,22 +67,29 @@ jobs:
           git commit -m "Bump upx-frontend to ${VERSION}"
           git push --set-upstream origin ${BRANCH_NAME}
 
-          PR_BODY="$(cat <<EOF
-          This is an automated pull request created from a build pipeline owned by the upx team.
-          ${{ env.ORIGINAL_COMMIT_MESSAGE }}
-          ${{ env.ORIGINAL_COMMIT_URL }}
-          EOF
-          )"
-          echo $PR_BODY
+          make_body() {
+              local message="This is an automated pull request created from a build pipeline owned by the upx team."
+              echo "${message}\r\n$1\r\n$2"
+          }
+          case "${{ env.PAYLOAD.original_event_name }}" in
+              "pull_request")
+                title=${{ env.PAYLOAD.event.pull_request.title }}
+                url=${{ env.PAYLOAD.event.pull_request.html_url }}
+                  ;;
+                "push")
+                title=${{ env.PAYLOAD.event.head_commit.message }}
+                url=${{ env.PAYLOAD.event.head_commit.url }}
+                ;;
+          esac  
+
+          pr_body=$(make_body $title $url)
 
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
-          --body "${PR_BODY}" \
+          --body "${pr_body}" \
           --head "$(git branch --show-current)"
 
       - name: Print contexts
         run: |
-          printf "✅ ORIGINAL_CONTEXT\n"
-          echo "${{ env.ORIGINAL_CONTEXT }}"
           printf "✅ CONTEXT\n"
           echo "${{ env.CONTEXT }}"
