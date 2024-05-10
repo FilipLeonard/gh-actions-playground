@@ -81,7 +81,9 @@ jobs:
                 ;;
           esac  
 
-          pr_body=$(make_body $title $url)
+          pr_body="$(make_body $title $url)"
+
+          echo "✅ ${pr_body}"
 
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
