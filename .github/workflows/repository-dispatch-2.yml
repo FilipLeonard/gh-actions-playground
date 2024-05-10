@@ -4,8 +4,8 @@ name: Repository Dispatch 2
 
 # Controls when the workflow will run
 on:
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
 
   # Triggers the workflow on push or pull request events but only for the "main" branch
   repository_dispatch:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Edit devenv and open PR
         env:
-          GH_CONTEXT: ${{ toJson(github.event.client_payload) }}
+          GH_CONTEXT: ${{ toJson(github.event.client_payload.github_context.event) }}
         run: |
           VERSION=${{ env.NEW_VERSION || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
