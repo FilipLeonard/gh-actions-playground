@@ -39,11 +39,11 @@ jobs:
           gh auth status
           ls -la
 
-      - name: Print contexts
-        run: |
-          printf "GITHUB\n"
-          echo ${{ toJson(github) }}
-          printf "\n"
+      # - name: Print contexts
+      #   run: |
+      #     printf "GITHUB\n"
+      #     echo ${{ toJson(github) }}
+      #     printf "\n"
 
       - name: Edit devenv and open PR
         run: |
