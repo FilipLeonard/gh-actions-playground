@@ -41,7 +41,7 @@ jobs:
 
       - name: Edit devenv and open PR
         run: |
-          VERSION=${{ github.event.client_payload.build_name || github.run_number }}
+          VERSION="${{ github.event.client_payload.build_name || github.event_name }}-${{github.run_number}}"
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
@@ -77,7 +77,7 @@ jobs:
                 ;;
           esac  
 
-          pr_body="$(make_body $title $url)"
+          pr_body=$(make_body "${title}" "${url}")
 
           echo "✅ $title $url ${pr_body}"
 
