@@ -46,8 +46,9 @@ jobs:
           VERSION=${{ env.NEW_VERSION || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
-          printf "\nBEFORE REPLACEMENT\n"
-          cat devenv
+          echo "✅"
+          echo ${{ toJson(github.event.client_payload) }}
+
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
           printf "\nAFTER REPLACEMENT\n"
           cat devenv
