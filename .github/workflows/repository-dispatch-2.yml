@@ -23,6 +23,7 @@ jobs:
 
     env:
       GH_TOKEN: ${{ secrets.UPX_TOKEN }}
+      PAYLOAD: ${{ toJson(github.event.client_payload) }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -41,7 +42,6 @@ jobs:
       - name: Edit devenv and open PR
         env:
           CONTEXT: ${{ toJson(github) }}
-          PAYLOAD: ${{ toJson(github.event.client_payload) }}
         run: |
           VERSION=${{ env.PAYLOAD.build_name || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
