@@ -62,17 +62,19 @@ jobs:
 
           make_body() {
               local message="This is an automated pull request created from a build pipeline owned by the upx team."
-              echo "${message}\r\n$1\r\n$2"
+              local title = $1
+              local url = $2
+              echo "${message}\r\n${title}\r\n${url}"
           }
           case "${{ github.event.client_payload.original_event_name }}" in
               "pull_request")
-                title="${{ github.event.client_payload.event.pull_request.title }}"
-                url="${{ github.event.client_payload.event.pull_request.html_url }}"
+                title="${{ github.event.client_payload.original_event.pull_request.title }}"
+                url="${{ github.event.client_payload.original_event.pull_request.html_url }}"
                 echo "✅ pull_request $title $url"
                 ;;
                 "push")
-                title="${{ github.event.client_payload.event.head_commit.message }}"
-                url="${{ github.event.client_payload.event.head_commit.url }}"
+                title="${{ github.event.client_payload.original_event.head_commit.message }}"
+                url="${{ github.event.client_payload.original_event.head_commit.url }}"
                 echo "✅ push $title $url"
                 ;;
           esac  
