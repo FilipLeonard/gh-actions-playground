@@ -76,4 +76,4 @@ jobs:
       - name: Print contexts
         run: |
           printf "GITHUB\n"
-          printf "${{ toJson(github) }}"
+          echo "${{ toJson(github) }}"
