@@ -24,6 +24,8 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.UPX_TOKEN }}
       NEW_VERSION: ${{ github.event.client_payload.build_name }}
+      ORIGINAL_COMMIT_MESSAGE: ${{ github.event.client_payload.github_context.event.head_commit.message || 'original message' }}
+      ORIGINAL_COMMIT_URL: ${{ github.event.client_payload.github_context.event.head_commit.url || 'original url' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -68,12 +70,16 @@ jobs:
           git commit -m "Bump upx-frontend to ${VERSION}"
           git push --set-upstream origin ${BRANCH_NAME}
 
+          PR_BODY=$(cat <<EOF
+          This is an automated pull request created from a build pipeline owned by the upx team.
+          ${{ env.ORIGINAL_COMMIT_MESSAGE }}
+          ${{ env.ORIGINAL_COMMIT_URL }}
+          EOF
+          )
+
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
-          --body \
-            $"This is an automated pull request created from a build pipeline owned by the upx team.\r\n" \
-            $"${{ github.event.client_payload.github_context.event.head_commit.message }}\r\n"\
-            $"${{ github.event.client_payload.github_context.event.head_commit.url }}" \
+          --body ${PR_BODY} \
           --head "$(git branch --show-current)"
 
       - name: Print contexts
