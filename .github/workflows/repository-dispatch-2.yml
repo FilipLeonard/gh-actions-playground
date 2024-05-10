@@ -69,10 +69,6 @@ jobs:
           echo ${{ toJson(secrets) }}
           printf "\n"
 
-          printf "INPUTS\n"
-          echo ${{ toJson(inputs) }}
-          printf "\n"
-
       - name: Edit devenv and open PR
         run: |
           VERSION=${{ env.NEW_VERSION || github.run_number }}
