@@ -24,6 +24,8 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.UPX_TOKEN }}
       NEW_VERSION: ${{ github.event.client_payload.build_name }}
+      CONTEXT: ${{ toJson(github) }}
+      ORIGINAL_CONTEXT: ${{ toJson(github.event.client_payload.github_context) }}
       ORIGINAL_COMMIT_MESSAGE: ${{ github.event.client_payload.github_context.event.head_commit.message || 'original message' }}
       ORIGINAL_COMMIT_URL: ${{ github.event.client_payload.github_context.event.head_commit.url || 'original url' }}
 
@@ -88,5 +90,7 @@ jobs:
 
       - name: Print contexts
         run: |
-          printf "GITHUB\n"
-          echo "${{ toJson(github) }}"
+          printf "✅ ORIGINAL_CONTEXT\n"
+          echo "${{ env.ORIGINAL_CONTEXT }}"
+          printf "✅ CONTEXT\n"
+          echo "${{ env.CONTEXT }}"
