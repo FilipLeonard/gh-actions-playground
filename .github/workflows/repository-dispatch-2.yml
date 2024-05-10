@@ -47,7 +47,7 @@ jobs:
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
           echo "✅"
-          echo ${{ toJson(github.event.client_payload) }}
+          echo ${{ toJson(github.event.client_payload.github_context) }}
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
           printf "\nAFTER REPLACEMENT\n"
