@@ -58,28 +58,22 @@ jobs:
 
           gh auth setup-git
 
-
-
           make_body() {
               local message="This is an automated pull request created from a build pipeline owned by the upx team."
               printf "%s\n\n%s\n%s" "${message}" "$1" "$2"
           }
           case "${{ github.event.client_payload.original_event_name }}" in
               "pull_request")
-                title="${{ github.event.client_payload.original_event.pull_request.title }}"
+                url_desc="Original PR"
                 url="${{ github.event.client_payload.original_event.pull_request.html_url }}"
-                echo "✅ pull_request $title $url"
                 ;;
                 "push")
-                title="${{ github.event.client_payload.original_event.head_commit.message }}"
+                url_desc="Original commit"
                 url="${{ github.event.client_payload.original_event.head_commit.url }}"
-                echo "✅ push $title $url"
                 ;;
           esac  
 
-          pr_body=$(make_body "${title}" "${url}")
-
-          echo "✅ $title $url ${pr_body}"
+          pr_body=$(make_body "${url_desc}" "${url}")
 
           git checkout -b ${BRANCH_NAME}
 
@@ -91,8 +85,3 @@ jobs:
           --title "Bump upx-frontend to ${VERSION}" \
           --body "${pr_body}" \
           --head "$(git branch --show-current)"
-
-      - name: Print contexts
-        run: |
-          printf "✅ CONTEXT\n"
-          echo "${{ env.CONTEXT }}"
