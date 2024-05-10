@@ -58,11 +58,7 @@ jobs:
 
           gh auth setup-git
 
-          git checkout -b ${BRANCH_NAME}
 
-          git add devenv
-          git commit -m "Bump upx-frontend to ${VERSION}"
-          git push --set-upstream origin ${BRANCH_NAME}
 
           make_body() {
               local message="This is an automated pull request created from a build pipeline owned by the upx team."
@@ -84,6 +80,12 @@ jobs:
           pr_body="$(make_body $title $url)"
 
           echo "✅ $title $url ${pr_body}"
+
+          git checkout -b ${BRANCH_NAME}
+
+          git add devenv
+          git commit -m "Bump upx-frontend to ${VERSION}"
+          git push --set-upstream origin ${BRANCH_NAME}
 
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
