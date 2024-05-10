@@ -30,17 +30,19 @@ jobs:
       - name: Print build name
         run: echo ${{ github.event.client_payload.build_name }}
 
-      - name: Print current GH user
-        run: |
-          gh auth status
-          ls -la
-
       - name: Generate a GH App installation token
         id: generate-token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ vars.UPX_BOT_APP_ID }}
           private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
+
+      - name: Print current GH user
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh auth status
+          ls -la
 
       - name: Edit devenv and open PR
         env:
