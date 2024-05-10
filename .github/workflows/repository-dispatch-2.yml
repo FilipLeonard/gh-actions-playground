@@ -4,8 +4,8 @@ name: Repository Dispatch 2
 
 # Controls when the workflow will run
 on:
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
 
   # Triggers the workflow on push or pull request events but only for the "main" branch
   repository_dispatch:
@@ -45,8 +45,6 @@ jobs:
         run: |
           VERSION=${{ env.PAYLOAD.build_name || github.run_number }}
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
-          echo $PAYLOAD
-
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
           printf "\nAFTER REPLACEMENT\n"
