@@ -70,6 +70,6 @@ jobs:
           --body "This is an automated pull request created from a build pipeline owned by the upx team." \
           --head "$(git branch --show-current)"
 
-      - name: Sleep
-        run: |
-          sleep 60
+      # - name: Sleep
+      #   run: |
+      #     sleep 60
