@@ -70,7 +70,10 @@ jobs:
 
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
-          --body "This is an automated pull request created from a build pipeline owned by the upx team." \
+          --body \
+            $"This is an automated pull request created from a build pipeline owned by the upx team.\r\n" \
+            $"${{ github.event.client_payload.github_context.event.head_commit.message }}\r\n"\
+            $"${{ github.event.client_payload.github_context.event.head_commit.url }}" \
           --head "$(git branch --show-current)"
 
       - name: Print contexts
