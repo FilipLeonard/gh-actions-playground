@@ -62,9 +62,7 @@ jobs:
 
           make_body() {
               local message="This is an automated pull request created from a build pipeline owned by the upx team."
-              local title = $1
-              local url = $2
-              echo "${message}\r\n${title}\r\n${url}"
+              printf "%s\n\n%s\n%s" "${message}" "$1" "$2"
           }
           case "${{ github.event.client_payload.original_event_name }}" in
               "pull_request")
