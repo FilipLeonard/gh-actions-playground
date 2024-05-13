@@ -44,6 +44,27 @@ jobs:
           gh auth status
           ls -la
 
+      - name: Create PR body
+        id: pr-body
+        run: |
+          make_body() {
+            local main_desc="This is an automated pull request created from a build pipeline owned by the upx team."
+            local src_event=$1
+            local src_event_url=$2
+            printf "%s\n\n%s\n%s" "${main_desc}" "${src_event}" "${src_event_url}"
+          } 
+          case "${{ github.event.client_payload.original_event_name }}" in
+              "pull_request")
+                src_ev="Original PR"
+                src_ev_url="${{ github.event.client_payload.original_event.pull_request.html_url }}"
+                ;;
+                "push")
+                src_ev="Original commit"
+                src_ev_url="${{ github.event.client_payload.original_event.head_commit.url }}"
+                ;;
+          esac
+          PR_BODY=$(make_body $src_ev $src_ev_url)
+          echo "pr_body=${PR_BODY}" >> $GITHUB_OUTPUT
       - name: Edit devenv and open PR
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
@@ -52,35 +73,11 @@ jobs:
           BRANCH_NAME="automated-bump/upx-frontend-${VERSION}"
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${VERSION}/" devenv
-          printf "\nAFTER REPLACEMENT\n"
-          cat devenv
-          printf "\nLIST FILES\n"
-          ls -l
-          printf "\nLIST BRANCH\n"
-          BRANCH=$(git branch --show-current)
-          echo $BRANCH
 
           git config --global user.name 'Your Name'
           git config --global user.email 'your-username@users.noreply.github.com'
 
           gh auth setup-git
-
-          make_body() {
-              local message="This is an automated pull request created from a build pipeline owned by the upx team."
-              printf "%s\n\n%s\n%s" "${message}" "$1" "$2"
-          }
-          case "${{ github.event.client_payload.original_event_name }}" in
-              "pull_request")
-                url_desc="Original PR"
-                url="${{ github.event.client_payload.original_event.pull_request.html_url }}"
-                ;;
-                "push")
-                url_desc="Original commit"
-                url="${{ github.event.client_payload.original_event.head_commit.url }}"
-                ;;
-          esac  
-
-          pr_body=$(make_body "${url_desc}" "${url}")
 
           git checkout -b ${BRANCH_NAME}
 
@@ -90,5 +87,5 @@ jobs:
 
           gh pr create \
           --title "Bump upx-frontend to ${VERSION}" \
-          --body "${pr_body}" \
+          --body "${{steps.pr-body.outputs.pr_body}}" \
           --head "$(git branch --show-current)"
