@@ -65,7 +65,11 @@ jobs:
           esac
           PR_BODY="$(make_body "${src_ev}" "${src_ev_url}")"
           echo "✅ $PR_BODY"
-          echo "PR_BODY=$PR_BODY" >> $GITHUB_OUTPUT
+          {
+            echo 'PR_BODY<<EOF'
+            echo "${PR_BODY}"
+            echo EOF
+          } >> $GITHUB_OUTPUT
       - name: Edit devenv and open PR
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
