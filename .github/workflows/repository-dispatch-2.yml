@@ -49,6 +49,8 @@ jobs:
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the upx team."
+            local src_event="$1"
+            local src_event_url="$2"
             printf "%s\n\n%s\n%s" "${main_desc}" "$1" "$2"
           } 
           case "${{ github.event.client_payload.original_event_name }}" in
@@ -62,7 +64,8 @@ jobs:
                 ;;
           esac
           PR_BODY="$(make_body "${src_ev}" "${src_ev_url}")"
-          echo "PR_BODY=${PR_BODY}" >> $GITHUB_OUTPUT
+          echo "✅ $PR_BODY"
+          echo "PR_BODY=$PR_BODY" >> $GITHUB_OUTPUT
       - name: Edit devenv and open PR
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
