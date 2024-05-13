@@ -36,6 +36,8 @@ jobs:
         with:
           app-id: ${{ vars.UPX_BOT_APP_ID }}
           private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
+          owner: neo-technology
+          repositories: neo4j-cloud
 
       - name: Print current GH user
         env:
@@ -64,7 +66,6 @@ jobs:
                 ;;
           esac
           PR_BODY="$(make_body "${src_ev}" "${src_ev_url}")"
-          echo "✅ $PR_BODY"
           {
             echo 'PR_BODY<<EOF'
             echo "${PR_BODY}"
