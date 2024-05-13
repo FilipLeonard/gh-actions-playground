@@ -49,8 +49,8 @@ jobs:
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the upx team."
-            local src_event=$1
-            local src_event_url=$2
+            local src_event="$1"
+            local src_event_url="$2"
             printf "%s\n\n%s\n%s" "${main_desc}" "${src_event}" "${src_event_url}"
           } 
           case "${{ github.event.client_payload.original_event_name }}" in
