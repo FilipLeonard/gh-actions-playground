@@ -44,8 +44,8 @@ jobs:
           gh auth status
           ls -la
 
-      - name: Prepare new version, PR title and body
-        id: pr-inputs
+      - name: Prepare PR body
+        id: pr-body
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the upx team."
@@ -63,15 +63,7 @@ jobs:
                 src_ev_url="${{ github.event.client_payload.original_event.head_commit.url }}"
                 ;;
           esac
-
-          NEW_VERSION="${{ github.event.client_payload.build_id || github.event_name }}-${{github.run_number}}"
-          BRANCH_NAME="automated-bump/upx-frontend-${NEW_VERSION}"
-          PR_TITLE="Bump upx-frontend to ${NEW_VERSION}"
           PR_BODY="$(make_body $src_ev $src_ev_url)"
-
-          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_OUTPUT
-          echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_OUTPUT
-          echo "PR_TITLE=${PR_TITLE}" >> $GITHUB_OUTPUT
           echo "PR_BODY=${PR_BODY}" >> $GITHUB_OUTPUT
       - name: Edit devenv and open PR
         env:
