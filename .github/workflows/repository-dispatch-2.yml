@@ -63,7 +63,7 @@ jobs:
                 src_ev_url="${{ github.event.client_payload.original_event.head_commit.url }}"
                 ;;
           esac
-          PR_BODY="$(make_body $src_ev $src_ev_url)"
+          PR_BODY="$(make_body "${src_ev}" "${src_ev_url}")"
           echo "PR_BODY=${PR_BODY}" >> $GITHUB_OUTPUT
       - name: Edit devenv and open PR
         env:
