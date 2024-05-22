@@ -40,7 +40,7 @@ jobs:
           workflow: workflow-dispatch.yml
           repo: FilipLeonard/gh-actions-playground
           ref: main
-          token: "${{ github.token }}"
+          token: ${{ github.token }}
           inputs: |-
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
