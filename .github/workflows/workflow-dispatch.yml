@@ -18,6 +18,15 @@ on:
         type: string
         description: "URL of original event, used in PR body"
         required: false
+      source_pr_url:
+        type: string
+        required: false
+      source_pr_title:
+        type: string
+        required: false
+      source_pr_body:
+        type: string
+        required: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
