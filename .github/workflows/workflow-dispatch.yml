@@ -49,26 +49,17 @@ jobs:
       - run: |
           echo "Inputs: ${GITHUB_INPUTS}"
 
-      - name: Prepare PR body
-        id: pr-body
+      - name: Edit devenv and open PR
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the UPX team."
-            printf "%s\n\nOriginal PR\n%s\n%s\n%s\n" "${main_desc}" "${{ inputs.source_pr_url }}" "${{ inputs.source_pr_title }}" "${{inputs.source_pr_body}}"
+            printf "%s\n\nOriginal PR\n%s\n%s\n%s\n" "${main_desc}" ${{ inputs.source_pr_url }} ${{ inputs.source_pr_title }} ${{inputs.source_pr_body}}
           } 
           PR_BODY="$(make_body)"
-          {
-            echo 'PR_BODY<<EOF'
-            echo "${PR_BODY}"
-            echo EOF
-          } >> $GITHUB_OUTPUT
 
-      - name: Edit devenv and open PR
-        run: |
           NEW_VERSION="${{ inputs.new_version }}"
           BRANCH_NAME="automated-bump/upx-frontend-${NEW_VERSION}"
           COMMIT_MESSAGE="Bump upx-frontend to ${NEW_VERSION}"
-          PR_BODY="${{steps.pr-body.outputs.PR_BODY}}"
 
           sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${NEW_VERSION}/" devenv
 
