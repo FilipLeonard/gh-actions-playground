@@ -58,6 +58,7 @@ jobs:
           echo "Inputs: ${GITHUB_INPUTS}"
           echo "Source PR: ${SOURCE_PR}"
           echo "Source PR Raw: ${SOURCE_PR_RAW}"
+          echo "Source PR Raw Body: ${{ inputs.source_pr.body}}"
 
       - name: Edit devenv and open PR
         if: ${{ inputs.source_pr_title }}
