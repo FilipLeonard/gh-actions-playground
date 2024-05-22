@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Repository Dispatch 2
+name: Trigger workflow dispatch
 
 # Controls when the workflow will run
 on:
@@ -38,9 +38,9 @@ jobs:
           # ref: master
           # ref: upx-frontend-version-bump-workflow
           workflow: workflow-dispatch.yml
-          # repo: FilipLeonard/gh-actions-playground
+          repo: FilipLeonard/gh-actions-playground
           ref: main
-          # token: "${{ steps.app-token.outputs.token }}"
+          token: "${{ github.token }}"
           inputs: |-
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
