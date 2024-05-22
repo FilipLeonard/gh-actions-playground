@@ -37,13 +37,15 @@ make_body_3() {
     printf "Original PR\n%s\n%s\n%s\n" "${src_pr_url}" "${src_pr_title}" "${src_pr_body}"
 
 
-#         "$(cat << EOF
-# $src_pr_url
+    echo "✅"
 
-# >$src_pr_title
-# >$src_pr_body
-# EOF
-# )"
+        "$(cat << EOF
+$src_pr_url
+
+$src_pr_title
+$src_pr_body
+EOF
+)"
 }
 
 var="pull_request"
