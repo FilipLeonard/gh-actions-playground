@@ -45,6 +45,6 @@ jobs:
           inputs: |-
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
-              "source_event": "<source_event> manual dispatch",
+              "source_event": "${{ toJson(github.event) }}",
               "source_event_url": "<source_event_url> manual dispatch"
             }
