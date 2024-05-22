@@ -21,8 +21,12 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  printInputs:
+  print-inputs:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_INPUTS: ${{ toJson(inputs) }}
+      GITHUB_EV_INPUTS: ${{ toJson(github.event.inputs) }}
     steps:
       - run: |
-          echo "Inputs: ${{ toJson( github.event.inputs) }}"
+          echo "Inputs: ${GITHUB_INPUTS}"
+          echo "Event Inputs: ${GITHUB_EV_INPUTS}"
