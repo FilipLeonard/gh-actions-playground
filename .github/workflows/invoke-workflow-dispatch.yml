@@ -37,14 +37,14 @@ jobs:
       - name: Prepare commit details
         id: commit
         run: |
-          pr=$(gh pr list --search "${{ github.sha }}" --state merged --json 'title,body,url' --jq '.[0]')
+          # pr=$(gh pr list --search "${{ github.sha }}" --state merged --json 'title,body,url' --jq '.[0]')
           # pr_title=$(printf "%s" "${pr}" | jq .title )
           # pr_body=$(printf "%s" "${pr}" | jq .body )
           # pr_url=$(printf "%s" "${pr}" | jq .url )
 
-          pr_title=$(gh pr list --search "${{ github.sha }}" --state merged --json 'title' | jq -r '.[0].title')
-          pr_body=$(gh pr list --search "${{ github.sha }}" --state merged --json 'body' | jq -r '.[0].body')
-          pr_url=$(gh pr list --search "${{ github.sha }}" --state merged --json 'url' | jq -r '.[0].url')
+          pr_title="$(gh pr list --search "${{ github.sha }}" --state merged --json 'title' | jq '.[0].title')"
+          pr_body="$(gh pr list --search "${{ github.sha }}" --state merged --json 'body' | jq '.[0].body')"
+          pr_url="$(gh pr list --search "${{ github.sha }}" --state merged --json 'url' | jq '.[0].url')"
 
           echo "PR_TITLE=${pr_title}" >> $GITHUB_OUTPUT
           echo "PR_BODY=${pr_body}" >> $GITHUB_OUTPUT
