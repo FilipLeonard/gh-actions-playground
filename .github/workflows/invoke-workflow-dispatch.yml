@@ -12,6 +12,8 @@ jobs:
   # This workflow contains a single job called "build"
   trigger-workflow-dispatch:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       # - name: Generate GitHub App Installation token
       #   id: app-token
