@@ -25,8 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_INPUTS: ${{ toJson(inputs) }}
-      GITHUB_EV_INPUTS: ${{ toJson(github.event.inputs) }}
     steps:
+      - name: Validate new version
+        run: |
+          new_version="${{ inputs.new_version }}"
+          if [[ ! $new_version =~ ^[0-9a-fA-F]{10}$ ]]; then
+            echo "Invalid input new_version: must contain exactly 10 hexadecimal characters (0-9, a-f, A-F)."
+            exit 1
+          fi
+
       - run: |
           echo "Inputs: ${GITHUB_INPUTS}"
-          echo "Event Inputs: ${GITHUB_EV_INPUTS}"
