@@ -6,12 +6,18 @@ name: Workflow Dispatch
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: "Log level"
+      new_version:
+        type: string
+        description: "New version of the UPX frontend artifacts"
         required: true
-        default: "warning"
-      tags:
-        description: "Test scenario tags"
+      source_event:
+        type: string
+        description: "Original event that triggered this workflow, used in PR body"
+        required: false
+      source_event_url:
+        type: string
+        description: "URL of original event, used in PR body"
+        required: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,5 +25,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Log level: ${{ github.event.inputs.logLevel }}"
-          echo "Tags: ${{ github.event.inputs.tags }}"
+          echo "Inputs: ${{ toJson( github.event.inputs) }}"
