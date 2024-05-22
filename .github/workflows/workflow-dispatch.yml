@@ -92,5 +92,5 @@ jobs:
 
           gh pr create \
           --title "${COMMIT_MESSAGE}" \
-          --body "${PR_BODY}" \
+          --body "${{ inputs.source_pr_body }}" \
           --head "$(git branch --show-current)"
