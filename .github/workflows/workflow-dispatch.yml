@@ -36,6 +36,8 @@ jobs:
       GITHUB_INPUTS: ${{ toJson(inputs) }}
       GH_TOKEN: ${{ github.token }}
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - name: Validate new version
         run: |
           new_version="${{ inputs.new_version }}"
