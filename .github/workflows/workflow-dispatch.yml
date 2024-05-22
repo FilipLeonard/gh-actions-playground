@@ -44,7 +44,7 @@ jobs:
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the UPX team."
-            printf "%s\n\nOriginal commit %s\nOriginal commit PR %s" "${main_desc}" ${{ inputs.commit_url }} ${{ inputs.commit_pr_url }}
+            printf "%s\n\nOriginal UPX pull request %s\nOriginal UPX commit to trunk %s" "${main_desc}" ${{ inputs.commit_pr_url }} ${{ inputs.commit_url }}
           } 
           PR_BODY="$(make_body)"
 
