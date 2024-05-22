@@ -41,7 +41,7 @@ jobs:
           COMMIT_SHA: "f72da1b85efafbbe89b95fb3a5cd36400484b36c"
         run: |
           # pr=$(gh pr list --search "${{ env.COMMIT_SHA }}" --state merged --json 'title,body,url' --jq '.[0]')
-          pr=$(gh pr list --search "${{ env.COMMIT_SHA }}" --state merged --json 'title,body,url')
+          pr=$(gh pr list --search "${{ env.COMMIT_SHA }}" --state merged --json 'title,body,url' --jq '.[0]')
           # pr_title=$(printf "%s" "${pr}" | jq .title )
           # pr_body=$(printf "%s" "${pr}" | jq .body )
           # pr_url=$(printf "%s" "${pr}" | jq .url )
