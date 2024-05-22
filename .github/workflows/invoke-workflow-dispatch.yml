@@ -37,10 +37,11 @@ jobs:
           # repo: neo-technology/neo4j-cloud
           # ref: master
           # ref: upx-frontend-version-bump-workflow
-          workflow: workflow-dispatch.yml
-          repo: FilipLeonard/gh-actions-playground
-          ref: main
-          token: ${{ github.token }}
+          # workflow: workflow-dispatch.yml
+          workflow: 98912257
+          # repo: FilipLeonard/gh-actions-playground
+          # ref: main
+          # token: ${{ github.token }}
           inputs: |-
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
