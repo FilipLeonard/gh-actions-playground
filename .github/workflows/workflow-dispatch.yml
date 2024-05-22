@@ -40,8 +40,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_INPUTS: ${{ toJson(inputs) }}
-      SOURCE_PR: ${{ inputs.source_pr }}
-      # SOURCE_PR_RAW: ${{ fromJson(inputs.source_pr) }}
+      SOURCE_PR_RAW: ${{ inputs.source_pr }}
+      SOURCE_PR: ${{ toJson(inputs.source_pr) }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository code
