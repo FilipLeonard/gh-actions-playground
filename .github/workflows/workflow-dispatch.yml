@@ -40,6 +40,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_INPUTS: ${{ toJson(inputs) }}
+      SOURCE_PR: ${{ inputs.source_pr }}
+      SOURCE_PR_RAW: ${{ fromJson(inputs.source_pr) }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository code
@@ -54,6 +56,8 @@ jobs:
 
       - run: |
           echo "Inputs: ${GITHUB_INPUTS}"
+          echo "Source PR: ${SOURCE_PR}"
+          echo "Source PR Raw: ${SOURCE_PR_RAW}"
 
       - name: Edit devenv and open PR
         if: ${{ inputs.source_pr_title }}
