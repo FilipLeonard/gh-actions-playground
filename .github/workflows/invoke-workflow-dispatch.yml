@@ -38,12 +38,12 @@ jobs:
         id: commit
         run: |
           pr=$(gh pr list --search "${{ github.sha }}" --state merged --json 'title,body,url' --jq '.[0]')
-          pr_title=$(printf "%s" "${pr}" | jq -r .title )
-          pr_body=$(printf "%s" "${pr}" | jq -r .body )
-          pr_url=$(printf "%s" "${pr}" | jq -r .url )
-          echo "PR_TITLE=$pr_title" >> $GITHUB_OUTPUT
-          echo "PR_BODY=$pr_body" >> $GITHUB_OUTPUT
-          echo "PR_URL=$pr_url" >> $GITHUB_OUTPUT
+          pr_title=$(printf "%s" "${pr}" | jq .title )
+          pr_body=$(printf "%s" "${pr}" | jq .body )
+          pr_url=$(printf "%s" "${pr}" | jq .url )
+          echo "PR_TITLE=${pr_title}" >> $GITHUB_OUTPUT
+          echo "PR_BODY=${pr_body}" >> $GITHUB_OUTPUT
+          echo "PR_URL=${pr_url}" >> $GITHUB_OUTPUT
       - name: Invoke version bumping workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
