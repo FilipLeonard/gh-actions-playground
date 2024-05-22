@@ -24,7 +24,7 @@ jobs:
   print-inputs:
     runs-on: ubuntu-latest
     env:
-      GITHUB_INPUTS: ${{ inputs }}
+      GITHUB_INPUTS: ${{ toJson(inputs) }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository code
