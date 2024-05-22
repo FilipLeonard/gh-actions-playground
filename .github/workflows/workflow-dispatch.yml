@@ -70,6 +70,6 @@ jobs:
           git push --set-upstream origin ${BRANCH_NAME}
 
           gh pr create \
-          --title "${COMMIT_MESSAGE}" \
+          --title "${COMMIT_MESSAGE} (${{ inputs.commit_pr_url }})" \
           --body "${PR_BODY}" \
           --head "$(git branch --show-current)"
