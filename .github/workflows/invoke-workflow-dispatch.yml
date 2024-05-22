@@ -53,7 +53,7 @@ jobs:
           # repo: FilipLeonard/gh-actions-playground
           # ref: main
           # token: ${{ github.token }}
-          inputs: |-
+          inputs: |
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
               "commit_url": "${{ github.event.head_commit.url }}",
