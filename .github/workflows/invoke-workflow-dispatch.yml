@@ -39,7 +39,7 @@ jobs:
         env:
           COMMIT_SHA: ${{ github.sha }}
         run: |
-          pr_url="$(gh pr list --search "${{ env.COMMIT_SHA }}" --state merged --json 'url' | jq '.[0].url')"
+          pr_url="$(gh pr list --search "${{ env.COMMIT_SHA }}" --state merged --json 'url' | jq -r '.[0].url')"
           echo "PR_URL=${pr_url}" >> $GITHUB_OUTPUT
       - name: Invoke version bumping workflow
         uses: benc-uk/workflow-dispatch@v1
