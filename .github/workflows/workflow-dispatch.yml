@@ -10,38 +10,21 @@ on:
         type: string
         description: "New version of the UPX frontend artifacts"
         required: true
-      source_event:
+      commit_url:
         type: string
-        description: "Original event that triggered this workflow, used in PR body"
+        description: "URL of commit"
         required: false
-      source_event_url:
+      commit_pr_url:
         type: string
-        description: "URL of original event, used in PR body"
+        description: "URL of commit PR"
         required: false
-      source_pr:
-        type: string
-        required: false
-      source_pr_url:
-        type: string
-        required: false
-        default: '""'
-      source_pr_title:
-        type: string
-        required: false
-        default: '""'
-      source_pr_body:
-        type: string
-        required: false
-        default: '""'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   print-inputs:
     runs-on: ubuntu-latest
     env:
-      GITHUB_INPUTS: ${{ toJson(inputs) }}
-      SOURCE_PR_RAW: ${{ inputs.source_pr }}
-      SOURCE_PR: ${{ toJson(inputs.source_pr) }}
+      GITHUB_INPUTS: ${{ inputs }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository code
@@ -56,16 +39,13 @@ jobs:
 
       - run: |
           echo "Inputs: ${GITHUB_INPUTS}"
-          echo "Source PR: ${SOURCE_PR}"
-          echo "Source PR Raw: ${SOURCE_PR_RAW}"
-          echo "Source PR Raw Body: ${{ inputs.source_pr.body}}"
 
       - name: Edit devenv and open PR
         if: ${{ inputs.source_pr_title }}
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the UPX team."
-            printf "%s\n\nOriginal PR\n%s\n%s\n%s\n" "${main_desc}" ${{ inputs.source_pr_url }} ${{ inputs.source_pr_title }} ${{inputs.source_pr_body}}
+            printf "%s\n\nOriginal commit %s\nOriginal commit PR %s" "${main_desc}" ${{ inputs.commit_url }} ${{ inputs.commit_pr_url }}
           } 
           PR_BODY="$(make_body)"
 
@@ -92,5 +72,5 @@ jobs:
 
           gh pr create \
           --title "${COMMIT_MESSAGE}" \
-          --body ${{ inputs.source_pr_body }} \
+          --body ${PR_BODY} \
           --head "$(git branch --show-current)"
