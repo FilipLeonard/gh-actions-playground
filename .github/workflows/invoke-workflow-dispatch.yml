@@ -57,5 +57,5 @@ jobs:
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
               "commit_url": "${{ github.event.head_commit.url }}",
-              "commit_pr_url": "${{ steps.commit-details.outputs.PR }}"
+              "commit_pr_url": "${{ steps.commit-details.outputs.PR_URL }}"
             }
