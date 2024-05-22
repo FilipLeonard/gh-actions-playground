@@ -70,7 +70,7 @@ jobs:
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
               "source_event_url": "<source_event_url> manual dispatch",
-              "source_pr": ${{ toJson(steps.commit.outputs.PR) }},
+              "source_pr": "${{ steps.commit.outputs.PR }}",
               "source_pr_url": ${{ toJson(steps.commit.outputs.PR_URL) }},
               "source_pr_title": ${{ toJson(steps.commit.outputs.PR_TITLE) }},
               "source_pr_body": ${{ toJson(steps.commit.outputs.PR_BODY) }}
