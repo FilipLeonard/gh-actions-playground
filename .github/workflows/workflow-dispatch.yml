@@ -41,7 +41,6 @@ jobs:
           echo "Inputs: ${GITHUB_INPUTS}"
 
       - name: Edit devenv and open PR
-        if: ${{ inputs.source_pr_title }}
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the UPX team."
