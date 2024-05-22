@@ -67,6 +67,7 @@ jobs:
             printf "%s\n\nOriginal PR\n%s\n%s\n%s\n" "${main_desc}" ${{ inputs.source_pr_url }} ${{ inputs.source_pr_title }} ${{inputs.source_pr_body}}
           } 
           PR_BODY="$(make_body)"
+          PR_BODY_2="$(echo "${{ env.SOURCE_PR }}" | jq '.[0].body')"
 
           echo "✅"
           echo $PR_BODY
