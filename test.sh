@@ -34,7 +34,7 @@ make_body_3() {
     src_pr_title=$(printf "%s" "${src_pr}" | jq -r ".title" )
     src_pr_body=$(printf "%s" "${src_pr}" | jq -r ".body" )
     src_pr_url=$(printf "%s" "${src_pr}" | jq -r ".url" )
-    printf "Original PR\n%s\n%s\n%s\n" "${src_pr_url}" "${src_pr_title}" "${src_pr_body}"
+    # printf "Original PR\n%s\n%s\n%s\n" "${src_pr_url}" "${src_pr_title}" "${src_pr_body}"
 
 
     echo "✅"
@@ -59,4 +59,4 @@ case "${var}" in
         ;;
 esac
 
-make_body_3
+echo $(make_body_3)
