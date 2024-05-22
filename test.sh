@@ -20,6 +20,23 @@ make_body_2() {
     printf "%s\n\n%s\n%s" "${message}" "$1" "$2"
 }
 
+make_body_3() {
+    src_pr=$(gh pr list --search "16127c1cea" --state merged --json 'title,body,url' --jq '.[0]')
+    src_pr_title=$(echo $src_pr | jq -r .title )
+    src_pr_body=$(echo $src_pr | jq -r .body )
+    src_pr_url=$(echo $src_pr | jq -r .url )
+    
+    printf "Original PR\n%s\n%s\n%s\n" "${src_pr_url}" "${src_pr_title}" "${src_pr_body}"
+
+        "$(cat << EOF
+$src_pr_url
+
+>$src_pr_title
+>$src_pr_body
+EOF
+)"
+}
+
 var="pull_request"
 
 case "${var}" in
@@ -31,4 +48,4 @@ case "${var}" in
         ;;
 esac
 
-echo "$title" 
+make_body_3

@@ -30,6 +30,16 @@ jobs:
           SHORT_SHA=`echo ${{ github.sha }} | cut -c 1-10`
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
 
+      - name: Prepare commit details
+        id: commit
+        run: |
+          pr=$(gh pr list --search "${{ github.sha }}" --state merged --json 'title,body,url' --jq '.[0]')
+          pr_title=$(echo $pr | jq -r .title )
+          pr_body=$(echo $pr | jq -r .body )
+          pr_url=$(echo $pr | jq -r .url )
+          echo "PR_TITLE=$pr_title" >> $GITHUB_OUTPUT
+          echo "PR_BODY=$pr_body" >> $GITHUB_OUTPUT
+          echo "PR_URL=$pr_url" >> $GITHUB_OUTPUT
       - name: Invoke version bumping workflow
         uses: benc-uk/workflow-dispatch@v1
         with:
@@ -45,6 +55,8 @@ jobs:
           inputs: |-
             {
               "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
-              "source_event": "${{ toJson(github.event) }}",
               "source_event_url": "<source_event_url> manual dispatch"
+              "source_pr_url": "${{ steps.commit.outputs.PR_URL }}"
+              "source_pr_title": "${{ steps.commit.outputs.PR_TITLE }}"
+              "source_pr_body": "${{ steps.commit.outputs.PR_BODY }}"
             }
