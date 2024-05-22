@@ -25,6 +25,8 @@ jobs:
       #     # repositories: neo4j-cloud
       #     owner: FilipLeonard
       #     repositories: gh-actions-playground
+      - name: Check out repository code
+        uses: actions/checkout@v4
 
       - name: Set build name and rename artifact
         id: build-name
