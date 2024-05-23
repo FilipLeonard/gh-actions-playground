@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  my-job:
+  pass-check:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
