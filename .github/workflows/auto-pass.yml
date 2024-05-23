@@ -25,10 +25,10 @@ jobs:
           private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
           owner: FilipLeonard
           repositories: gh-actions-playground
-      - uses: hmarr/auto-approve-action@v4
-        with:
-          review-message: "Auto approved automated PR"
-          github-token: ${{ steps.generate-token.outputs.token }}
+      # - uses: hmarr/auto-approve-action@v4
+      #   with:
+      #     review-message: "Auto approved automated PR"
+      #     github-token: ${{ steps.generate-token.outputs.token }}
 
   pass-check:
     runs-on: ubuntu-latest

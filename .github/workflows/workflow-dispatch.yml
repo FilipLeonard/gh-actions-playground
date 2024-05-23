@@ -79,3 +79,8 @@ jobs:
           --head "$(git branch --show-current)"
 
           gh pr merge --auto --squash --delete-branch "${BRANCH_NAME}"
+
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
+      - uses: hmarr/auto-approve-action@v4
+        with:
+          review-message: "Auto approved automated PR"
