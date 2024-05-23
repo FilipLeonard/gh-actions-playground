@@ -17,6 +17,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      - name: Print github context
+        env:
+          GHC: ${{ toJson(github) }}
+        run: echo $GHC
+
       - name: Long task
         run: sleep 30
 
