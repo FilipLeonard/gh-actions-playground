@@ -25,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_INPUTS: ${{ toJson(inputs) }}
-      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -40,7 +39,18 @@ jobs:
       - run: |
           echo "Inputs: ${GITHUB_INPUTS}"
 
+      - name: Generate a GH App installation token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.UPX_BOT_APP_ID }}
+          private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
+          owner: FilipLeonard
+          repositories: gh-actions-playground
+
       - name: Edit devenv and open PR
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           make_body() {
             local main_desc="This is an automated pull request created from a build pipeline owned by the UPX team."
