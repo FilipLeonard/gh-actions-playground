@@ -49,6 +49,7 @@ jobs:
           repositories: gh-actions-playground
 
       - name: Edit devenv and open PR
+        id: pr
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
@@ -80,7 +81,11 @@ jobs:
 
           gh pr merge --auto --squash --delete-branch "${BRANCH_NAME}"
 
+          PR_NO=$(gh pr view "${BRANCH_NAME}" --json "number" | jq .number)
+
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "PR_NO=$PR_NO" >> $GITHUB_OUTPUT
       - uses: hmarr/auto-approve-action@v4
         with:
           review-message: "Auto approved automated PR"
+          pull-request-number: ${{ steps.pr.outputs.PR_NO }}
