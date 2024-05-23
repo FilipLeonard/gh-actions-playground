@@ -4,10 +4,13 @@ name: Repository Dispatch
 
 # Controls when the workflow will run
 on:
+  # push:
+  #   branches: [main]
+
   # Triggers the workflow on push or pull request events but only for the "main" branch
   repository_dispatch:
-    # types: [upx-frontend-trunk-build, upx-frontend-pr-build]
-    types: [upx-frontend-build]
+    types: [upx-frontend-trunk-build, upx-frontend-pr-build]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -24,5 +27,71 @@ jobs:
       - uses: actions/checkout@v4
 
       # Runs a single command using the runners shell
-      - name: Print build name
-        run: echo ${{ github.event.client_payload.build_name }}
+      - name: Print build id
+        run: echo ${{ github.event.client_payload.build_id }}
+
+      - name: Generate a GH App installation token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.UPX_BOT_APP_ID }}
+          private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
+          owner: FilipLeonard
+          repositories: gh-actions-playground
+
+      - name: Print current GH user
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh auth status
+          ls -la
+
+      - name: Prepare PR body
+        id: pr-body
+        run: |
+          make_body() {
+            local main_desc="This is an automated pull request created from a build pipeline owned by the upx team."
+            local src_event="$1"
+            local src_event_url="$2"
+            printf "%s\n\n%s\n%s" "${main_desc}" "$1" "$2"
+          } 
+          case "${{ github.event.client_payload.original_event_name }}" in
+              "pull_request")
+                src_ev="Original PR"
+                src_ev_url="${{ github.event.client_payload.original_event.pull_request.html_url }}"
+                ;;
+                "push")
+                src_ev="Original commit"
+                src_ev_url="${{ github.event.client_payload.original_event.head_commit.url }}"
+                ;;
+          esac
+          PR_BODY="$(make_body "${src_ev}" "${src_ev_url}")"
+          {
+            echo 'PR_BODY<<EOF'
+            echo "${PR_BODY}"
+            echo EOF
+          } >> $GITHUB_OUTPUT
+      - name: Edit devenv and open PR
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          NEW_VERSION="${{ github.event.client_payload.build_id || github.event_name }}-${{github.run_number}}"
+          BRANCH_NAME="automated-bump/upx-frontend-${NEW_VERSION}"
+          COMMIT_MESSAGE="Bump upx-frontend to ${NEW_VERSION}"
+          PR_BODY="${{steps.pr-body.outputs.PR_BODY}}"
+
+          sed -i -e "s/^export UPX_FRONTEND_VERSION=.*/export UPX_FRONTEND_VERSION=${NEW_VERSION}/" devenv
+
+          git config --global user.name 'Your Name'
+          git config --global user.email 'your-username@users.noreply.github.com'
+          gh auth setup-git
+
+          git checkout -b ${BRANCH_NAME}
+          git add devenv
+          git commit -m "${COMMIT_MESSAGE}"
+          git push --set-upstream origin ${BRANCH_NAME}
+
+          gh pr create \
+          --title "${COMMIT_MESSAGE}" \
+          --body "${PR_BODY}" \
+          --head "$(git branch --show-current)"
