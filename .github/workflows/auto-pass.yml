@@ -12,5 +12,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      - name: Long task
+        run: sleep 2m
+
       - name: Run a one time script
         run: exit 0
