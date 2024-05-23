@@ -48,12 +48,6 @@ jobs:
           } 
           PR_BODY="$(make_body)"
 
-          echo "✅"
-          echo $PR_BODY
-          echo "✅"
-          printf "%s" $PR_BODY
-          echo "✅"
-
           NEW_VERSION="${{ inputs.new_version }}"
           BRANCH_NAME="automated-bump/upx-frontend-${NEW_VERSION}"
           COMMIT_MESSAGE="Bump upx-frontend to ${NEW_VERSION}"
