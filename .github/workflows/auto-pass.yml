@@ -1,4 +1,4 @@
-name: Auto Pass
+name: Auto Pass ✅
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

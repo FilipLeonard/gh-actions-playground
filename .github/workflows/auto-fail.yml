@@ -1,4 +1,4 @@
-name: Auto Fail
+name: Auto Fail 🛑
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
