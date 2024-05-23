@@ -1,4 +1,4 @@
-name: Auto Pass
+name: Auto Pass ✅
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,25 +11,6 @@ on:
       - main
 
 jobs:
-  auto-approve:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    # if: github.actor == 'dependabot[bot]'
-    steps:
-      - name: Generate a GH App installation token
-        id: generate-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ vars.UPX_BOT_APP_ID }}
-          private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
-          owner: FilipLeonard
-          repositories: gh-actions-playground
-      # - uses: hmarr/auto-approve-action@v4
-      #   with:
-      #     review-message: "Auto approved automated PR"
-      #     github-token: ${{ steps.generate-token.outputs.token }}
-
   pass-check:
     runs-on: ubuntu-latest
     steps:
