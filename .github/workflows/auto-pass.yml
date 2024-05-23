@@ -3,7 +3,8 @@ name: Auto Pass
 on:
   workflow_dispatch:
   pull_request:
-    types: [opened, synchronize, reopened, labeled]
+    branches:
+      - main
 
 jobs:
   my-job:
