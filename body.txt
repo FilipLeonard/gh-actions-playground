@@ -1,1 +1,0 @@
-"\"This PR:\\r\\n- updates Readme\\r\\n- does another stuff\\r\\n- actually it doesn't\\r\\n\\r\\n\`\`\`tsx\\r\\n// curious how the body looks\\r\\n<React>Haha</React>\\r\\n\`\`\`\\r\\nRandom [pr url](https://github.com/FilipLeonard/gh-actions-playground/pull/70)\\r\\nSame url https://github.com/FilipLeonard/gh-actions-playground/pull/70\""

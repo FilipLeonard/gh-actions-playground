@@ -1,5 +1,9 @@
 name: Auto Pass
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   pull_request:
@@ -14,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Long task
-        run: sleep 2m
+        run: sleep 30
 
       - name: Run a one time script
         run: exit 0
