@@ -85,7 +85,11 @@ jobs:
 
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
           echo "PR_NO=$PR_NO" >> $GITHUB_OUTPUT
-      - uses: hmarr/auto-approve-action@v4
-        with:
-          review-message: "Auto approved automated PR"
-          pull-request-number: ${{ steps.pr.outputs.PR_NO }}
+      # - uses: hmarr/auto-approve-action@v4
+      #   with:
+      #     review-message: "Auto approved automated PR"
+      #     pull-request-number: ${{ steps.pr.outputs.PR_NO }}
+      - name: Approve PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr review --body "Auto approved automated PR" --approve ${{ steps.pr.outputs.PR_NO }}
