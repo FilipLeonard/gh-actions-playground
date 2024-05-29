@@ -10,52 +10,52 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  # trigger-workflow-dispatch:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     GH_TOKEN: ${{ github.token }}
-  #   steps:
-  #     # - name: Generate GitHub App Installation token
-  #     #   id: app-token
-  #     #   uses: actions/create-github-app-token@v1
-  #     #   with:
-  #     #     app-id: ${{ vars.UPX_BOT_APP_ID }}
-  #     #     private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
-  #     #     # owner: neo-technology
-  #     #     # repositories: neo4j-cloud
-  #     #     owner: FilipLeonard
-  #     #     repositories: gh-actions-playground
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v4
+  trigger-workflow-dispatch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      # - name: Generate GitHub App Installation token
+      #   id: app-token
+      #   uses: actions/create-github-app-token@v1
+      #   with:
+      #     app-id: ${{ vars.UPX_BOT_APP_ID }}
+      #     private-key: ${{ secrets.UPX_BOT_PRIVATE_KEY }}
+      #     # owner: neo-technology
+      #     # repositories: neo4j-cloud
+      #     owner: FilipLeonard
+      #     repositories: gh-actions-playground
+      - name: Check out repository code
+        uses: actions/checkout@v4
 
-  #     - name: Set build name and rename artifact
-  #       id: build-name
-  #       run: |
-  #         SHORT_SHA=`echo ${{ github.sha }} | cut -c 1-10`
-  #         echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
+      - name: Set build name and rename artifact
+        id: build-name
+        run: |
+          SHORT_SHA=`echo ${{ github.sha }} | cut -c 1-10`
+          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
 
-  #     - name: Prepare commit details
-  #       id: commit-details
-  #       env:
-  #         COMMIT_SHA: ${{ github.sha }}
-  #       run: |
-  #         pr_url="$(gh pr list --search "${{ env.COMMIT_SHA }}" --state merged --json 'url' | jq -r '.[0].url')"
-  #         echo "PR_URL=${pr_url}" >> $GITHUB_OUTPUT
-  #     - name: Invoke version bumping workflow
-  #       uses: benc-uk/workflow-dispatch@v1
-  #       with:
-  #         # workflow: upx-frontend-version-bump.yaml
-  #         # repo: neo-technology/neo4j-cloud
-  #         # ref: master
-  #         # ref: upx-frontend-version-bump-workflow
-  #         # workflow: workflow-dispatch.yml
-  #         workflow: 98912257
-  #         # repo: FilipLeonard/gh-actions-playground
-  #         # ref: main
-  #         # token: ${{ github.token }}
-  #         inputs: |
-  #           {
-  #             "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
-  #             "commit_url": "${{ github.event.head_commit.url }}",
-  #             "commit_pr_url": "${{ steps.commit-details.outputs.PR_URL }}"
-  #           }
+      - name: Prepare commit details
+        id: commit-details
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          pr_url="$(gh pr list --search "${{ env.COMMIT_SHA }}" --state merged --json 'url' | jq -r '.[0].url')"
+          echo "PR_URL=${pr_url}" >> $GITHUB_OUTPUT
+      # - name: Invoke version bumping workflow
+      #   uses: benc-uk/workflow-dispatch@v1
+      #   with:
+      #     # workflow: upx-frontend-version-bump.yaml
+      #     # repo: neo-technology/neo4j-cloud
+      #     # ref: master
+      #     # ref: upx-frontend-version-bump-workflow
+      #     # workflow: workflow-dispatch.yml
+      #     workflow: 98912257
+      #     # repo: FilipLeonard/gh-actions-playground
+      #     # ref: main
+      #     # token: ${{ github.token }}
+      #     inputs: |
+      #       {
+      #         "new_version": "${{ steps.build-name.outputs.SHORT_SHA }}",
+      #         "commit_url": "${{ github.event.head_commit.url }}",
+      #         "commit_pr_url": "${{ steps.commit-details.outputs.PR_URL }}"
+      #       }
