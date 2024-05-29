@@ -1,4 +1,4 @@
-name: test
+name: Dependent jobs
 on:
   workflow_dispatch:
 jobs:
