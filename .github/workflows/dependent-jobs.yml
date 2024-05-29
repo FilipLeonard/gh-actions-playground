@@ -29,3 +29,4 @@ jobs:
     if: ${{ always() && (needs.b.result == 'success' || needs.b.result == 'skipped') }}
     steps:
       - run: echo "C"
+      - run: echo "${{ toJson(needs.a.outputs) }}"
